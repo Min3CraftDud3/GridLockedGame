@@ -1,6 +1,9 @@
 package com.SinfulPixel.GridLocked.Login;
 /**
  * Created by Min3 on 4/21/2014.
+ * Usage:
+ * MySQLAccess dao = new MySQLAccess();
+   try{dao.readDataBase();}catch(Exception i){}
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
