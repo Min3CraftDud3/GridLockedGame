@@ -18,12 +18,14 @@ public class Play extends GameState {
     private World world;
     private Box2DDebugRenderer b2dr;
     private OrthographicCamera b2dCam;
+    private Body playerBody;
 
     public Play(GameStateManager gsm) {
         super(gsm);
         world = new World(new Vector2(0,-9.81f),true);
         world.setContactListener(new MyContactListener());
         b2dr = new Box2DDebugRenderer();
+
         //Create PlatForms / Maps
         BodyDef bdef = new BodyDef();
         bdef.position.set(160/PPM, 120/PPM);
@@ -31,37 +33,32 @@ public class Play extends GameState {
         //Static - Not Affected by forces   (Ground)
         //Dynamic - Affected by forces              (Player)
         //kinematic - Not affected by forces                (Moving Platform)
-
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(50/PPM,5/PPM);
         Body body = world.createBody(bdef);
-
         FixtureDef fdef = new FixtureDef();
         fdef.shape = shape;
         fdef.filter.categoryBits = BIT_GROUND;
-        fdef.filter.maskBits = BIT_BOX | BIT_BALL;
+        fdef.filter.maskBits = BIT_PLAYER;
         body.createFixture(fdef).setUserData("ground");
 
         //Create falling box
         bdef.position.set(160/PPM,200/PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(bdef);
-
+        playerBody = world.createBody(bdef);
         shape.setAsBox(5/PPM,5/PPM);
         fdef.shape = shape;
-        fdef.filter.categoryBits = BIT_BOX;
+        fdef.filter.categoryBits = BIT_PLAYER;
         fdef.filter.maskBits = BIT_GROUND;
-        body.createFixture(fdef).setUserData("box");
+        playerBody.createFixture(fdef).setUserData("player");
 
-        //Create Ball
-        bdef.position.set(153/PPM,220/PPM);
-        body = world.createBody(bdef);
-        CircleShape cshape = new CircleShape();
-        cshape.setRadius(5/PPM);
-        fdef.shape = cshape;
-        fdef.filter.categoryBits = BIT_BALL;
+        //Create Foot Sensor
+        shape.setAsBox(2/PPM,2/PPM, new Vector2(0,-5/PPM),0);
+        fdef.shape = shape;
+        fdef.filter.categoryBits = BIT_PLAYER;
         fdef.filter.maskBits = BIT_GROUND;
-        body.createFixture(fdef).setUserData("ball");
+        fdef.isSensor = true;
+        playerBody.createFixture(fdef).setUserData("foot");
 
         //Setup Camera
         b2dCam = new OrthographicCamera();
