@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**Class Obsolete**/
 public class GridLocked extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture logo;
