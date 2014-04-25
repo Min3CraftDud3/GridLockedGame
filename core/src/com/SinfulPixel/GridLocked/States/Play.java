@@ -3,6 +3,7 @@ package com.SinfulPixel.GridLocked.States;
 import com.SinfulPixel.GridLocked.Game.Game;
 import com.SinfulPixel.GridLocked.Handlers.GameStateManager;
 import com.SinfulPixel.GridLocked.Handlers.MyContactListener;
+import com.SinfulPixel.GridLocked.Handlers.MyInput;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,11 +20,13 @@ public class Play extends GameState {
     private Box2DDebugRenderer b2dr;
     private OrthographicCamera b2dCam;
     private Body playerBody;
+    private MyContactListener cl;
 
     public Play(GameStateManager gsm) {
         super(gsm);
         world = new World(new Vector2(0,-9.81f),true);
-        world.setContactListener(new MyContactListener());
+        cl = new MyContactListener();
+        world.setContactListener(cl);
         b2dr = new Box2DDebugRenderer();
 
         //Create PlatForms / Maps
@@ -65,7 +68,12 @@ public class Play extends GameState {
         b2dCam.setToOrtho(false, Game.V_WIDTH/PPM,Game.V_HEIGHT/PPM);
     }
     public void handleInput() {
-
+        //Jump
+        if(MyInput.isPressed(MyInput.BUTTON1)){
+            if(cl.isPlayerOnGround()){
+                playerBody.applyForceToCenter(0,200,true);
+            }
+        }
     }
     public void update(float dt) {
         handleInput();
