@@ -1,9 +1,6 @@
 package com.SinfulPixel.GridLocked.Handlers;
 
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.*;
 
 /**
  * Created by Min3 on 4/25/2014.
@@ -11,12 +8,12 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 public class MyContactListener implements ContactListener {
     //Called When 2 Fixtures Start to Collide
     public void beginContact(Contact c) {
-        System.out.println("Begin Contact");
-
+        Fixture fa = c.getFixtureA();
+        Fixture fb = c.getFixtureB();
     }
     //Called When 3 Fixtures are no longer colliding
     public void endContact(Contact c) {
-        System.out.println("End Contact");
+
     }
 
 

@@ -40,7 +40,7 @@ public class Play extends GameState {
         fdef.shape = shape;
         fdef.filter.categoryBits = BIT_GROUND;
         fdef.filter.maskBits = BIT_BOX | BIT_BALL;
-        body.createFixture(fdef);
+        body.createFixture(fdef).setUserData("ground");
 
         //Create falling box
         bdef.position.set(160/PPM,200/PPM);
@@ -51,7 +51,7 @@ public class Play extends GameState {
         fdef.shape = shape;
         fdef.filter.categoryBits = BIT_BOX;
         fdef.filter.maskBits = BIT_GROUND;
-        body.createFixture(fdef);
+        body.createFixture(fdef).setUserData("box");
 
         //Create Ball
         bdef.position.set(153/PPM,220/PPM);
@@ -61,7 +61,7 @@ public class Play extends GameState {
         fdef.shape = cshape;
         fdef.filter.categoryBits = BIT_BALL;
         fdef.filter.maskBits = BIT_GROUND;
-        body.createFixture(fdef);
+        body.createFixture(fdef).setUserData("ball");
 
         //Setup Camera
         b2dCam = new OrthographicCamera();
@@ -71,6 +71,7 @@ public class Play extends GameState {
 
     }
     public void update(float dt) {
+        handleInput();
        world.step(dt,6,2);
     }
     public void render() {

@@ -1,6 +1,8 @@
 package com.SinfulPixel.GridLocked.Game;
 
 import com.SinfulPixel.GridLocked.Handlers.GameStateManager;
+import com.SinfulPixel.GridLocked.Handlers.MyInput;
+import com.SinfulPixel.GridLocked.Handlers.MyInputProcessor;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,6 +24,7 @@ public class Game implements ApplicationListener {
     private GameStateManager gsm;
 
     public void create(){
+        Gdx.input.setInputProcessor(new MyInputProcessor());
         sb = new SpriteBatch();
         cam = new OrthographicCamera();
         cam.setToOrtho(false, V_WIDTH,V_HEIGHT);
@@ -35,6 +38,7 @@ public class Game implements ApplicationListener {
             accum -= STEP;
             gsm.update(STEP);
             gsm.render();
+            MyInput.update();
         }
     }
     public void resize(int width, int height){}
